@@ -14,6 +14,12 @@ const main = async () => {
 
     await db.delete(schema.courses)
     await db.delete(schema.userProgress)
+    await db.delete(schema.units)
+    await db.delete(schema.lessons)
+    await db.delete(schema.challenges)
+    await db.delete(schema.challengeOptions)
+    await db.delete(schema.challengeProgress)
+    // await db.delete(schema.userSubscription)
 
     await db.insert(schema.courses).values([
       {
@@ -37,6 +43,66 @@ const main = async () => {
         imageSrc: '/us.svg',
       },
     ])
+
+    await db.insert(schema.units).values([
+      {
+        id: 1,
+        courseId: 1, // Spanish
+        title: 'Unit 1',
+        description: 'Aprender o básico de Espanhol',
+        order: 1,
+      },
+    ])
+
+    await db.insert(schema.lessons).values([
+      {
+        id: 1,
+        unitId: 1, // Unit 1 (Learn the basics...)
+        order: 1,
+        title: 'Substantivos',
+      },
+      {
+        id: 2,
+        unitId: 1, // Unit 1 (Learn the basics...)
+        order: 2,
+        title: 'Verbos',
+      },
+    ])
+
+    await db.insert(schema.challenges).values([
+      {
+        id: 1,
+        lessonId: 1, // Nouns
+        type: 'SELECT',
+        order: 1,
+        question: 'Qual destes é o “homem”?',
+      },
+    ])
+
+    await db.insert(schema.challengeOptions).values([
+      {
+        challengeId: 1, // Which one of these is "the man"?
+        imageSrc: '/man.svg',
+        correct: true,
+        text: 'el hombre',
+        audioSrc: '/es_man.mp3',
+      },
+      {
+        challengeId: 1,
+        imageSrc: '/woman.svg',
+        correct: false,
+        text: 'la mujer',
+        audioSrc: '/es_woman.mp3',
+      },
+      {
+        challengeId: 1,
+        imageSrc: '/robot.svg',
+        correct: false,
+        text: 'el robot',
+        audioSrc: '/es_robot.mp3',
+      },
+    ])
+
     console.log('Seeding finished')
   } catch (error) {
     console.error(error)
