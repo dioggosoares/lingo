@@ -9,7 +9,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
       <MobileHeader />
       <Sidebar className="hidden lg:flex" />
       <main className="h-full pt-[3.125rem] lg:pl-64 lg:pt-0">
-        <div className="h-full bg-blue-500">{children}</div>
+        <div className="mx-auto h-full max-w-[66rem] pt-6">{children}</div>
       </main>
     </>
   )
