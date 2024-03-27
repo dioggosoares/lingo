@@ -9,7 +9,8 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "db:studio": "pnpm drizzle-kit studio",
-    "db:push": "pnpm drizzle-kit push:pg"
+    "db:push": "pnpm drizzle-kit push:pg",
+    "db:seed": "tsx ./scripts/seed.ts"
   },
   "dependencies": {
     "@clerk/localizations": "^1.26.16",
@@ -46,6 +47,7 @@
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "0.4.1",
     "tailwindcss": "^3.3.0",
+    "tsx": "^4.7.1",
     "typescript": "^5"
   }
 }

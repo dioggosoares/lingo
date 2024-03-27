@@ -11,7 +11,7 @@ export function Header({ title }: HeaderProps) {
   return (
     <div
       className="sticky top-0 mb-5 flex items-center justify-between border-b-2
-      bg-white pb-3 text-neutral-400 lg:z-50 lg:pt-7"
+      bg-white pb-3 text-neutral-400 lg:z-50 lg:-mt-7 lg:pt-7"
     >
       <Button variant="ghost" size="sm" asChild>
         <Link href="/courses">
