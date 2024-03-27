@@ -3,6 +3,7 @@ import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
+import { Toaster } from 'sonner'
 
 const nunito = Nunito({ subsets: ['latin'] })
 
@@ -33,7 +34,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className="antialiased" suppressHydrationWarning>
-        <body className={nunito.className}>{children}</body>
+        <body className={nunito.className}>
+          <Toaster richColors />
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   )

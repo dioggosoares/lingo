@@ -7,7 +7,7 @@ interface CardCourseProps {
   id: number
   title: string
   imageSrc: string
-  onCourse: (id: number) => void
+  onActiveCourse: (id: number) => void
   disabled?: boolean
   active?: boolean
 }
@@ -15,14 +15,14 @@ interface CardCourseProps {
 export function CardCourse({
   id,
   imageSrc,
-  onCourse,
+  onActiveCourse,
   title,
   active,
   disabled,
 }: CardCourseProps) {
   return (
     <div
-      onClick={() => onCourse(id)}
+      onClick={() => onActiveCourse(id)}
       className={cn(
         `flex h-full min-h-[13.5625rem] min-w-[12.5rem] cursor-pointer flex-col
         items-center justify-between rounded-xl border-2 border-b-4 p-3 pb-6

@@ -1,5 +1,10 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+import { useTransition } from 'react'
+import { toast } from 'sonner'
+
+import { upsertUserProgress } from '@/actions/user-progress'
 import { courses, userProgress } from '@/db/schema'
 
 import { CardCourse } from './card-course'
@@ -10,6 +15,21 @@ interface ListCoursesProps {
 }
 
 export function ListCourses({ activeCourseId, courses }: ListCoursesProps) {
+  const router = useRouter()
+  const [pending, startTransition] = useTransition()
+
+  function handleActiveCourse(id: number) {
+    if (pending) return
+
+    if (id === activeCourseId) {
+      return router.push('/learn')
+    }
+
+    startTransition(() => {
+      upsertUserProgress(id).catch(() => toast.error('Algo deu errado!'))
+    })
+  }
+
   return (
     <div
       className="grid grid-cols-1 gap-4
@@ -22,7 +42,7 @@ export function ListCourses({ activeCourseId, courses }: ListCoursesProps) {
             id={course.id}
             title={course.title}
             imageSrc={course.imageSrc}
-            onCourse={() => {}}
+            onActiveCourse={handleActiveCourse}
             disabled={false}
             active={course.id === activeCourseId}
           ></CardCourse>
