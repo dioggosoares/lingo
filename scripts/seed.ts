@@ -48,7 +48,7 @@ const main = async () => {
       {
         id: 1,
         courseId: 1, // Spanish
-        title: 'Unit 1',
+        title: 'Unidade 1',
         description: 'Aprender o básico de Espanhol',
         order: 1,
       },
@@ -65,7 +65,25 @@ const main = async () => {
         id: 2,
         unitId: 1, // Unit 1 (Learn the basics...)
         order: 2,
-        title: 'Verbos',
+        title: 'Verbs',
+      },
+      {
+        id: 3,
+        unitId: 1, // Unit 1 (Learn the basics...)
+        order: 3,
+        title: 'Verbs',
+      },
+      {
+        id: 4,
+        unitId: 1, // Unit 1 (Learn the basics...)
+        order: 4,
+        title: 'Verbs',
+      },
+      {
+        id: 5,
+        unitId: 1, // Unit 1 (Learn the basics...)
+        order: 5,
+        title: 'Verbs',
       },
     ])
 

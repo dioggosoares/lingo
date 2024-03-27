@@ -38,16 +38,6 @@ export function Footer() {
         </Button>
         <Button variant="ghost" size="lg" className="w-full">
           <Image
-            src="/jp.svg"
-            alt="Japanese"
-            width={40}
-            height={32}
-            className="mr-4 rounded-md"
-          />
-          Japanese
-        </Button>
-        <Button variant="ghost" size="lg" className="w-full">
-          <Image
             src="/us.svg"
             alt="English"
             width={40}
