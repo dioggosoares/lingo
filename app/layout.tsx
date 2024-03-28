@@ -6,6 +6,7 @@ import { Nunito } from 'next/font/google'
 import { Toaster } from 'sonner'
 
 import { ExitModal } from '@/components/modals/exit-modal'
+import { HeartsModal } from '@/components/modals/hearts-modal'
 
 const nunito = Nunito({ subsets: ['latin'] })
 
@@ -39,6 +40,7 @@ export default function RootLayout({
         <body className={nunito.className}>
           <Toaster richColors />
           <ExitModal />
+          <HeartsModal />
           {children}
         </body>
       </html>
