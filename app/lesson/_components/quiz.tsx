@@ -1,7 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
+import { useAudio } from 'react-use'
+import { toast } from 'sonner'
 
+import { upsertChallengeProgress } from '@/actions/challenge-progress'
+import { reduceHearts } from '@/actions/user-progress'
 import { challengeOptions, challenges } from '@/db/schema'
 
 import { Challenge } from './challenge'
@@ -27,6 +31,12 @@ export function Quiz({
   initialLessonChallanges,
   userSubscription,
 }: QuizProps) {
+  const [correctAudio, _c, correctControls] = useAudio({ src: '/correct.wav' })
+  const [incorrectAudio, _i, incorrectControls] = useAudio({
+    src: '/incorrect.wav',
+  })
+
+  const [pending, startTransition] = useTransition()
   const [hearts, setHearts] = useState(initialHearts)
   const [percentage, setPercentage] = useState(initialPercentage)
   const [challenges] = useState(initialLessonChallanges)
@@ -71,9 +81,46 @@ export function Quiz({
     const correctOption = options.find((option) => option.correct)
 
     if (correctOption && correctOption.id === selectedOption) {
-      console.log('correto')
+      startTransition(() => {
+        upsertChallengeProgress(challenge.id)
+          .then((response) => {
+            if (response?.error === 'hearts') {
+              console.error('missing hearts')
+              return
+            }
+
+            correctControls.play()
+            setStatus('correct')
+            setPercentage((prev) => prev + 100 / challenges.length)
+
+            if (initialPercentage === 100) {
+              setHearts((prev) => Math.min(prev + 1, 5))
+            }
+          })
+          .catch(() =>
+            toast.error('Alguma coisa deu errado. Por favor tente outra vez'),
+          )
+      })
     } else {
-      console.error('incorreto')
+      startTransition(() => {
+        reduceHearts(challenge.id)
+          .then((response) => {
+            if (response?.error === 'hearts') {
+              console.error('missing hearts')
+              return
+            }
+
+            incorrectControls.play()
+            setStatus('wrong')
+
+            if (!response?.error) {
+              setHearts((prev) => Math.max(prev - 1, 0))
+            }
+          })
+          .catch(() =>
+            toast.error('Alguma coisa deu errado. Por favor tente outra vez'),
+          )
+      })
     }
   }
 
@@ -84,6 +131,8 @@ export function Quiz({
 
   return (
     <>
+      {correctAudio}
+      {incorrectAudio}
       <Header
         hearts={hearts}
         percentage={percentage}
@@ -110,14 +159,18 @@ export function Quiz({
                 onSelect={onSelect}
                 status={status}
                 selectedOption={selectedOption}
-                disabled={false}
+                disabled={pending}
                 type={challenge.type}
               />
             </div>
           </div>
         </div>
       </div>
-      <Footer disabled={!selectedOption} status={status} onCheck={onContinue} />
+      <Footer
+        disabled={pending || !selectedOption}
+        status={status}
+        onCheck={onContinue}
+      />
     </>
   )
 }

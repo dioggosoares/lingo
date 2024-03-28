@@ -95,6 +95,20 @@ const main = async () => {
         order: 1,
         question: 'Qual destes é o “homem”?',
       },
+      {
+        id: 2,
+        lessonId: 1, // Nouns
+        type: 'ASSIST',
+        order: 2,
+        question: '“O homem”',
+      },
+      {
+        id: 3,
+        lessonId: 1, // Nouns
+        type: 'SELECT',
+        order: 3,
+        question: 'Qual destes é o “robô”?',
+      },
     ])
 
     await db.insert(schema.challengeOptions).values([
@@ -116,6 +130,51 @@ const main = async () => {
         challengeId: 1,
         imageSrc: '/robot.svg',
         correct: false,
+        text: 'el robot',
+        audioSrc: '/es_robot.mp3',
+      },
+    ])
+
+    await db.insert(schema.challengeOptions).values([
+      {
+        challengeId: 2, // "the man"?
+        correct: true,
+        text: 'el hombre',
+        audioSrc: '/es_man.mp3',
+      },
+      {
+        challengeId: 2,
+        correct: false,
+        text: 'la mujer',
+        audioSrc: '/es_woman.mp3',
+      },
+      {
+        challengeId: 2,
+        correct: false,
+        text: 'el robot',
+        audioSrc: '/es_robot.mp3',
+      },
+    ])
+
+    await db.insert(schema.challengeOptions).values([
+      {
+        challengeId: 3, // Which one of these is "the man"?
+        imageSrc: '/man.svg',
+        correct: false,
+        text: 'el hombre',
+        audioSrc: '/es_man.mp3',
+      },
+      {
+        challengeId: 3,
+        imageSrc: '/woman.svg',
+        correct: false,
+        text: 'la mujer',
+        audioSrc: '/es_woman.mp3',
+      },
+      {
+        challengeId: 3,
+        imageSrc: '/robot.svg',
+        correct: true,
         text: 'el robot',
         audioSrc: '/es_robot.mp3',
       },
