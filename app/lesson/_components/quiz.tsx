@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { challengeOptions, challenges } from '@/db/schema'
 
 import { Challenge } from './challenge'
+import { Footer } from './footer'
 import { Header } from './header'
 import { QuestionBubble } from './question-bubble'
 
@@ -35,9 +36,46 @@ export function Quiz({
     )
     return uncompletedIndex === -1 ? 0 : uncompletedIndex
   })
+  const [selectedOption, setSelectedOption] = useState<number | undefined>()
+  const [status, setStatus] = useState<'correct' | 'wrong' | 'none'>('none')
 
   const challenge = challenges[activeIndex]
   const options = challenge?.challengeOptions ?? []
+
+  function onNext() {
+    setActiveIndex((current) => current + 1)
+  }
+
+  function onSelect(id: number) {
+    if (status !== 'none') return
+
+    setSelectedOption(id)
+  }
+
+  function onContinue() {
+    if (!selectedOption) return
+
+    if (status === 'correct') {
+      onNext()
+      setStatus('none')
+      setSelectedOption(undefined)
+      return
+    }
+
+    if (status === 'wrong') {
+      setStatus('none')
+      setSelectedOption(undefined)
+      return
+    }
+
+    const correctOption = options.find((option) => option.correct)
+
+    if (correctOption && correctOption.id === selectedOption) {
+      console.log('correto')
+    } else {
+      console.error('incorreto')
+    }
+  }
 
   const title =
     challenge.type === 'ASSIST'
@@ -69,9 +107,9 @@ export function Quiz({
               )}
               <Challenge
                 options={options}
-                onSelect={() => {}}
-                status="none"
-                selectedOption={undefined}
+                onSelect={onSelect}
+                status={status}
+                selectedOption={selectedOption}
                 disabled={false}
                 type={challenge.type}
               />
@@ -79,6 +117,7 @@ export function Quiz({
           </div>
         </div>
       </div>
+      <Footer disabled={!selectedOption} status={status} onCheck={onContinue} />
     </>
   )
 }
