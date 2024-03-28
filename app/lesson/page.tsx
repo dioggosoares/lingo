@@ -26,7 +26,7 @@ export default async function Lesson() {
       initialLessonChallanges={lesson.challenges}
       initialHearts={userProgress.hearts}
       initialPercentage={initialPercentage}
-      userSubscription={undefined}
+      userSubscription={null}
     />
   )
 }

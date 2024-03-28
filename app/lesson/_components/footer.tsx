@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 interface FooterProps {
-  lessonId?: boolean
+  lessonId?: number
   disabled?: boolean
   status: 'correct' | 'wrong' | 'none' | 'completed'
   onCheck: () => void
