@@ -5,6 +5,8 @@ import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 import { Toaster } from 'sonner'
 
+import { ExitModal } from '@/components/modals/exit-modal'
+
 const nunito = Nunito({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -36,6 +38,7 @@ export default function RootLayout({
       <html lang="en" className="antialiased" suppressHydrationWarning>
         <body className={nunito.className}>
           <Toaster richColors />
+          <ExitModal />
           {children}
         </body>
       </html>
