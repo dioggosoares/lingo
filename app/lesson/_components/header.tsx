@@ -1,4 +1,5 @@
-import { X } from 'lucide-react'
+import { InfinityIcon, X } from 'lucide-react'
+import Image from 'next/image'
 
 import { Progress } from '@/components/ui/progress'
 
@@ -23,6 +24,21 @@ export function Header({
         className="cursor-pointer text-slate-500 transition hover:opacity-25"
       />
       <Progress value={percentage} />
+
+      <div className="flex items-center font-bold text-rose-500">
+        <Image
+          src="/heart.svg"
+          height={28}
+          width={28}
+          alt="Heart"
+          className="mr-2"
+        />
+        {hasActiveSubscription ? (
+          <InfinityIcon className="h-6 w-6 stroke-[3]" />
+        ) : (
+          hearts
+        )}
+      </div>
     </div>
   )
 }
