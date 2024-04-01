@@ -7,10 +7,14 @@ import { redirect } from 'next/navigation'
 
 import { POINTS_TO_REFILL } from '@/constants'
 import db from '@/db/drizzle'
-import { getCourseById, getUserProgress } from '@/db/queries'
+import {
+  getCourseById,
+  getUserProgress,
+  getUserSubscription,
+} from '@/db/queries'
 import { challengeProgress, challenges, userProgress } from '@/db/schema'
 
-export async function upsertUserProgress(courseId: number) {
+export const upsertUserProgress = async (courseId: number) => {
   const { userId } = auth()
   const user = await currentUser()
 
@@ -62,7 +66,7 @@ export const reduceHearts = async (challengeId: number) => {
   }
 
   const currentUserProgress = await getUserProgress()
-  // const userSubscription = await getUserSubscription()
+  const userSubscription = await getUserSubscription()
 
   const challenge = await db.query.challenges.findFirst({
     where: eq(challenges.id, challengeId),
@@ -91,9 +95,9 @@ export const reduceHearts = async (challengeId: number) => {
     throw new Error('User progress not found')
   }
 
-  // if (userSubscription?.isActive) {
-  //   return { error: 'subscription' }
-  // }
+  if (userSubscription?.isActive) {
+    return { error: 'subscription' }
+  }
 
   if (currentUserProgress.hearts === 0) {
     return { error: 'hearts' }

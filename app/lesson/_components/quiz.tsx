@@ -1,5 +1,6 @@
 'use client'
 
+import { boolean } from 'drizzle-orm/mysql-core'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
@@ -9,7 +10,7 @@ import { toast } from 'sonner'
 
 import { upsertChallengeProgress } from '@/actions/challenge-progress'
 import { reduceHearts } from '@/actions/user-progress'
-import { challengeOptions, challenges } from '@/db/schema'
+import { challengeOptions, challenges, userSubscription } from '@/db/schema'
 import { useHeartsModal } from '@/store/use-hearts-modal'
 import { usePracticeModal } from '@/store/use-practice-modal'
 
@@ -27,7 +28,11 @@ interface QuizProps {
     completed: boolean
     challengeOptions: (typeof challengeOptions.$inferSelect)[]
   })[]
-  userSubscription: any
+  userSubscription:
+    | (typeof userSubscription.$inferSelect & {
+        isActive: boolean
+      })
+    | null
 }
 
 export function Quiz({
